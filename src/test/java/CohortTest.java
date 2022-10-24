@@ -10,42 +10,43 @@ import static org.junit.Assert.*;
 
 public class CohortTest {
     Cohort cohort;
-    Student student;
+    Student student1;
+    Student student2;
+    List<Student> testList;
 
     @Before
     public void setUp(){
-        cohort =  new Cohort();
-        student = new Student("Paul", 1234567);
-    }
+        student1 = new Student("Paul", 1234567);
+        student1.addGrade(70);
+        student1.addGrade(99);
+        student1.addGrade(87);
 
-    @Test
-    public void testIfCohortInstanceCanAddStudent(){
-        cohort.addStudent(student);
-        assertEquals(cohort.getStudents().get(0), student);
-    }
-
-    @Test
-    public void testIfCohortCanListStudents(){
-        List<Student> students = new ArrayList<>();
-        students.add(student);
-        cohort.addStudent(student);
-        assertEquals(students, cohort.getStudents());
-    }
-
-    @Test
-    public void testIfCohortCalculatesGradeAverage(){
-        student.addGrade(70);
-        student.addGrade(99);
-        student.addGrade(87);
-
-        Student student2 = new Student("Jimmy", 9876543);
+        student2 = new Student("Jimmy", 9876543);
         student2.addGrade(88);
         student2.addGrade(80);
         student2.addGrade(56);
 
-        cohort.addStudent(student);
-        cohort.addStudent(student2);
+        testList = new ArrayList<>();
+        testList.add(student1);
+        testList.add(student2);
 
+        cohort =  new Cohort();
+        cohort.addStudent(student1);
+        cohort.addStudent(student2);
+    }
+
+    @Test
+    public void testIfCohortInstanceCanAddStudent(){
+        assertEquals(cohort.getStudents().get(0), student1);
+    }
+
+    @Test
+    public void testIfCohortCanListStudents(){
+        assertEquals(testList, cohort.getStudents());
+    }
+
+    @Test
+    public void testIfCohortCalculatesGradeAverage(){
         assertEquals(80.0, cohort.getCohortAverage(), 0);
     }
 
